@@ -1,7 +1,11 @@
+// App Entry Point
+
 // import packaged & files
 const express = require('express');
 const db = require('./config/connection');
 const routes = require('./routes');
+
+const cwd = process.cwd();
 
 // Environment Variables
 const PORT = 3001;

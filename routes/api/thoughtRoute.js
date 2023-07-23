@@ -1,4 +1,4 @@
-const router = require('express').router();
+const router = require('express').Router();
 
 const {
     getAllThoughts,
@@ -8,7 +8,7 @@ const {
     updateThoughtById,
     createReaction,
     deleteReaction,
-} = require('../../controllers/thought-controller'); 
+} = require('../../controllers/thoughtController.js'); 
 
 // Define the routes for GET and POST all Thoughts
 router.route('/').get(getAllThoughts).post(createThought);
@@ -21,5 +21,7 @@ router.route('/:thoughtId/reactions').post(createReaction);
 
 // Define the route for DELETE reaction to a Thought
 router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);
+
+
 // Export the router
 module.exports = router;

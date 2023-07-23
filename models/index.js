@@ -1,4 +1,7 @@
+// Entry point for data models
+
 const Reaction = require('./Reaction');
 const Thought = require('./Thought');
+const User = require('./User');
 
-module.exports = { Thought, Reaction };
+module.exports = { User, Thought, Reaction };
