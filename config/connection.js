@@ -3,7 +3,7 @@ const { connect, connection } = require('mongoose');
 
 // Defining the connection string for MongoDB.
 const connectionString =
-  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/studentsDB'; // adjust to relevant db name
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/socialNetwork'; // adjust to relevant db name
 
 // Connecting to the MongoDB database using the connection string and specified options.
 // The options include useNewUrlParser and useUnifiedTopology to use the new URL parser

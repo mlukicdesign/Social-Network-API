@@ -9,13 +9,7 @@ module.exports = {
         .catch((err) => res.status(500).json(err))
     },
 
-    // Find One user 
-
-    getUser(req,res ) {
-        User.findOne({_id: req.params.userId})
-        .then(userData => res.json(userData))
-        .catch((err) => res.status(500).json(err))
-    },
+ 
 
     // Create New User
 
@@ -31,6 +25,41 @@ module.exports = {
     // Delete User
 
     deleteUser(req,res) {
+        User.findOneAndDelete({ _id: req.params.userId})
+        .then((userData) =>
+        !userData
+            ? res.status(404).json({ message: 'This user does note exist'})
+            : Thought.deleteMany({ __id : { $in: Thought.User} }) // is this neces
+        )
+        .then(() => res.json({ message: 'User deleted' }))
+            .catch((err) => res.status(500).json(err));
+    },
+
+
+       // Find One user 
+
+       getUserById(req,res ) {
+        User.findOne({_id: req.params.userId})
+        .then(userData => res.json(userData))
+        .catch((err) => res.status(500).json(err))
+    },
+
+
+    // Update User By Id
+
+    updateUserById(req,res) {
+        User.create(req.body)
+        .then((userData) => res.json(userData))
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json(err);
+        })
+    },
+
+
+    // Delete User By ID
+
+    deleteUserById(req,res) {
         User.findOneAndDelete({ _id: req.params.userId})
         .then((userData) =>
         !userData
