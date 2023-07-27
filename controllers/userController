@@ -39,7 +39,7 @@ module.exports = {
        // Find One user 
 
        getUserById(req,res ) {
-        User.findOne({_id: req.params.userId})
+        User.findById({_id: req.params.userId})
         .then(userData => res.json(userData))
         .catch((err) => res.status(500).json(err))
     },
@@ -64,9 +64,52 @@ module.exports = {
         .then((userData) =>
         !userData
             ? res.status(404).json({ message: 'This user does note exist'})
-            : Thought.deleteMany({ __id : { $in: Thought.User} }) // is this neces
+            : Thought.deleteMany({ __id : { $in: Thought.User} }) 
         )
         .then(() => res.json({ message: 'User deleted' }))
             .catch((err) => res.status(500).json(err));
     },
+
+
+    // Add Friend
+
+    async addFriend(req, res) {
+        try {
+          const newFriend = await User.findOneAndUpdate(req.body);
+          await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.body.friendId || req.params.friendId} },
+            { new: true }
+          );
+    
+          res.status(200).json("added a new friend");
+        } catch (err) {
+          res.status(500).send(err);
+        }
+    
+      },
+
+
+    // Remove Friend
+
+    async removeFriend(req, res) {
+        try {
+          // Assuming you want to remove the friend with the provided `friendId`
+          const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId } }, // Use $pull to remove the friendId from the friends array
+            { new: true }
+          );
+      
+          // Check if the user exists and the friendId was removed successfully
+          if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+          }
+      
+          res.status(200).json(user);
+        } catch (err) {
+          res.status(500).send(err);
+        }
+      } 
+
 };
