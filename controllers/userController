@@ -15,24 +15,11 @@ module.exports = {
 
     createUser(req,res) {
         User.create(req.body)
-        .then((userData) => res.json(userData))
+        .then((userData) => res.json('User Created'))
         .catch((err) => {
             console.log(err);
             return res.status(500).json(err);
         })
-    },
-
-    // Delete User
-
-    deleteUser(req,res) {
-        User.findOneAndDelete({ _id: req.params.userId})
-        .then((userData) =>
-        !userData
-            ? res.status(404).json({ message: 'This user does note exist'})
-            : Thought.deleteMany({ __id : { $in: Thought.User} }) // is this neces
-        )
-        .then(() => res.json({ message: 'User deleted' }))
-            .catch((err) => res.status(500).json(err));
     },
 
 
@@ -47,28 +34,35 @@ module.exports = {
 
     // Update User By Id
 
-    updateUserById(req,res) {
-        User.create(req.body)
-        .then((userData) => res.json(userData))
-        .catch((err) => {
-            console.log(err);
-            return res.status(500).json(err);
-        })
-    },
-
+    updateUserById(req, res) {
+        User.findOneAndUpdate(
+          { _id: req.params.userId },
+          { $set: req.body },
+          { runValidators: true, new: true }
+        )
+          .then((user) =>
+            !user
+              ? res.status(404).json({ message: 'No user with this id!' })
+              : res.json('user updated')
+          )
+          .catch((err) => res.status(500).json(err));
+      },
 
     // Delete User By ID
 
-    deleteUserById(req,res) {
-        User.findOneAndDelete({ _id: req.params.userId})
-        .then((userData) =>
-        !userData
-            ? res.status(404).json({ message: 'This user does note exist'})
-            : Thought.deleteMany({ __id : { $in: Thought.User} }) 
-        )
-        .then(() => res.json({ message: 'User deleted' }))
-            .catch((err) => res.status(500).json(err));
-    },
+    deleteUserById(req, res) {
+        User.findOneAndDelete({ _id: req.params.userId })
+          .then((userData) => {
+            if (!userData) {
+              return res.status(404).json({ message: 'This user does not exist' });
+            }
+            return User.deleteMany({ username: userData.username });
+          })
+          .then(() => {
+            return res.json({ message: 'User and associated thoughts deleted' });
+          })
+          .catch((err) => res.status(500).json(err));
+      },
 
 
     // Add Friend
@@ -91,22 +85,18 @@ module.exports = {
 
 
     // Remove Friend
-
     async removeFriend(req, res) {
         try {
-          // Assuming you want to remove the friend with the provided `friendId`
           const user = await User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: { friends: req.params.friendId } }, // Use $pull to remove the friendId from the friends array
+            { $pull: { friends: req.params.friendId } }, 
             { new: true }
           );
-      
-          // Check if the user exists and the friendId was removed successfully
           if (!user) {
             return res.status(404).json({ error: 'User not found' });
           }
       
-          res.status(200).json(user);
+          res.status(200).json("Friend deleted!");
         } catch (err) {
           res.status(500).send(err);
         }

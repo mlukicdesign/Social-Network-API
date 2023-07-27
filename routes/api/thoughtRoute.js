@@ -10,18 +10,18 @@ const {
     deleteReaction,
 } = require('../../controllers/thoughtController.js'); 
 
-// // Define the routes for GET and POST all Thoughts
+
 router.route('/').get(getAllThoughts).post(createThought);
 
-// // // Define the routes for GET, PUT and DELETE Thoughts by specific ID
+
 router.route('/:thoughtId').get(getThoughtsById).put(updateThoughtById).delete(deleteThought);
 
-// // // Define the route for POST reaction to a Thought
-// // router.route('/:thoughtId/reactions').post(createReaction);
 
-// // // Define the route for DELETE reaction to a Thought
-// // router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);
+router.route('/:thoughtId/reactions').post(createReaction);
 
 
-// // // Export the router
+router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);
+
+
+
 module.exports = router;
