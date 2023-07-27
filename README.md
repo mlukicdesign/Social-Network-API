@@ -3,15 +3,16 @@
 
 ## Project Link
 
-https://github.com/mlukicdesign/eCommerce-Backend
+https://github.com/mlukicdesign/Social-Network-API/tree/main
 
 
 ### Walkthrough Video
-https://drive.google.com/file/d/1Uy-zmjvtiUzYstg_HnaH4j8ytk93RW9M/view
+https://drive.google.com/file/d/1gZjmRzYvXbCIFGPIBISQfNcMNyUyY42l/view
 
 
 ### Project Mockup
 
+<img src="Assets/Module_18_Mockup.png">
 
 
 ## Setup
@@ -28,18 +29,19 @@ To set up and run the Social Network API project on your local machine, follow t
 
 3. Install the required dependencies:
 
+    npm init
     npm install
 
     Configure the MongoDB database:
 
-Ensure you have MongoDB installed and running on your system.
-Update the MongoDB connection string in the config.js file to point to your local database or a cloud-hosted database.
+    Ensure you have MongoDB installed and running on your system.
+    Update the MongoDB connection string in the config.js file to point to your local database or a cloud-hosted database.
 
 
 5.Start the server:
 
-npm start
-The API server will now be running locally on http://localhost:3001
+    npm start
+    The API server will now be running locally on http://localhost:3001
 
 
 
